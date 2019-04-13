@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.naldana.ejemplo10.R
 import com.naldana.ejemplo10.Utilities.Coin
 
@@ -28,7 +29,7 @@ class CoinAdapter (var movies: List<Coin>, val  clickListener: (Coin) -> Unit): 
 
     class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         fun bind(item: Coin,clickListener: (Coin) -> Unit)= with(itemView){
-            Glide.with(itemView.context)
+            /*Glide.with(itemView.context)
                 .load(item.Poster)
                 .placeholder(R.drawable.ic_launcher_background)
                 .into(movie_image_cv)
@@ -37,7 +38,7 @@ class CoinAdapter (var movies: List<Coin>, val  clickListener: (Coin) -> Unit): 
             movie_plot_cv.text = item.Plot
             movie_rate_cv.text = item.imdbRating
             movie_runtime_cv.text = item.Runtime
-            this.setOnClickListener{clickListener(item)}
+            this.setOnClickListener{clickListener(item)}*/
         }
     }
 }

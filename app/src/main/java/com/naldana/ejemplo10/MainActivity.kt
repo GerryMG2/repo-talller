@@ -12,12 +12,24 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import android.content.Intent
-
+import android.os.AsyncTask
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import com.google.gson.Gson
+import com.naldana.ejemplo10.Adapter.CoinAdapter
+import com.naldana.ejemplo10.Utilities.Coin
+import org.json.JSONObject
+import java.io.IOException
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     var twoPane =  false
+    
+    private lateinit var coinAdapter: CoinAdapter
+    private lateinit var viewManager: RecyclerView.LayoutManager
+    
+    private var coinList: ArrayList<Coin> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,4 +137,65 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
+    
+    fun initRecyclerView() {
+        
+        viewManager = LinearLayoutManager(this)
+        
+        coinAdapter = CoinAdapter(coinList, {coinItem: Coin -> coinItemClicked(coinItem)})
+        
+        /*movie_list_rv.apply {
+            setHasFixedSize(true)
+            layoutManager = viewManager
+            adapter = movieAdapter
+        }*/
+    }
+    
+    private fun coinItemClicked(item: Coin){
+        /*val movieBundle = Bundle()
+        movieBundle.putParcelable("MOVIE", item)
+        startActivity(Intent(this, movieViewerActivity)
+         */
+    }
+    
+    /*fun initSearchButton() = add_movie_btn.setOnClickListener{
+        if (!movie_name_et.text.toString().isEmpty()){
+            FetchMovie().execute(movie_name_et.text.toString())
+        }
+    }hay que arreglar los layouts */
+    
+    fun addCoinToList(coin: Coin){
+        coinList.add(coin)
+        coinAdapter.changeList(coinList)
+    }
+    
+    private inner class FetchMovie: AsyncTask<String, Void, String>(){
+        override fun doInBackground(vararg params: String): String {
+            if (params.isNullOrEmpty()) return ""
+            val movieName = params[0]
+            
+            val movieUrl = NetworkUtils().buildtSearchUrl(movieName)
+            
+            return try {
+                NetworkUtils().getResponseFromHttpUrl(movieUrl)
+            }catch (e: IOException){
+                ""
+            }
+        }
+        
+        override fun onPostExecute(movieInfo: String) {
+            super.onPostExecute(movieInfo)
+            if (!movieInfo.isEmpty()) {
+                val movieJson = JSONObject(movieInfo)
+                if (movieJson.getString("Response") == "True") {
+                    val coin = Gson().fromJson<Coin>(movieInfo, Coin::class.java)
+                    addCoinToList(coin)
+                } else {
+                    Snackbar.make(main_ll, "No existe la pelicula en la base", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+        }
+        
+    }
+    
 }

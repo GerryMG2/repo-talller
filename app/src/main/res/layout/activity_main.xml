@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
-
+    
     <!-- TODO (2) Incluye el contenido principal, definido en el XML app_bar_main-->
     <!-- TODO (2.1) El valor de gravedad no esta asignado -->
     <!-- TODO (2.2) El ancho y el alto debe ser match_parent -->
