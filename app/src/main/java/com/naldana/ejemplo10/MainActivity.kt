@@ -18,6 +18,7 @@ import android.support.v7.widget.RecyclerView
 import com.google.gson.Gson
 import com.naldana.ejemplo10.Adapter.CoinAdapter
 import com.naldana.ejemplo10.Utilities.Coin
+import com.naldana.ejemplo10.network.NetworkUtils
 import org.json.JSONObject
 import java.io.IOException
 
