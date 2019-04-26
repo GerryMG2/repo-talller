@@ -4,11 +4,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
 import com.naldana.ejemplo10.R
 import com.naldana.ejemplo10.Utilities.Coin
 
-class CoinAdapter (var movies: List<Coin>, val  clickListener: (Coin) -> Unit): RecyclerView.Adapter<CoinAdapter.ViewHolder>(){
+class CoinAdapter (var movies: MutableList<Coin>, val clickListener: (Coin) -> Unit): RecyclerView.Adapter<CoinAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, ViewType: Int): CoinAdapter.ViewHolder {
 
@@ -21,7 +20,7 @@ class CoinAdapter (var movies: List<Coin>, val  clickListener: (Coin) -> Unit): 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(movies[position],clickListener)
 
-    fun changeList(movies: List<Coin>){
+    fun changeList(movies: MutableList<Coin>){
         this.movies = movies
 
         notifyDataSetChanged()

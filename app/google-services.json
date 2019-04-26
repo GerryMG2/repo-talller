@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "303425247636",
+    "firebase_url": "https://coinsapi-d2b82.firebaseio.com",
+    "project_id": "coinsapi-d2b82",
+    "storage_bucket": "coinsapi-d2b82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:303425247636:android:f50aee1d92debd47",
+        "android_client_info": {
+          "package_name": "com.naldana.ejemplo10"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "303425247636-g1loa8qhb0hfp6h50e9c30rblak0thqc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.naldana.ejemplo10",
+            "certificate_hash": "efe8e80bd3b20768cb974b3b36c6cd26c9421d01"
+          }
+        },
+        {
+          "client_id": "303425247636-s3iar3k3nccuimrgomdd6dbn5e47dmmc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAp3S765XfR7kUle0SZVuP8MxWcldsmTFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "303425247636-s3iar3k3nccuimrgomdd6dbn5e47dmmc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

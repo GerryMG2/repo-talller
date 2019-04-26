@@ -1,51 +1,46 @@
 package com.naldana.ejemplo10.network
 
-import android.net.Uri
-import java.io.IOException
-import java.net.HttpURLConnection
-import java.net.MalformedURLException
-import java.net.URL
-import java.util.*
+import android.util.Log
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
+import com.naldana.ejemplo10.Utilities.Coin
+
 
 class NetworkUtils {
-    val MOVIES_API_BASEURL = "http://www.omdbapi.com/"
-    val TOKEN_API ="bdbd1730"
+    val db = FirebaseFirestore.getInstance()
     
-    fun buildtSearchUrl(movieName: String): URL {
-        
-        val  builtUri = Uri.parse(MOVIES_API_BASEURL)
-            .buildUpon()
-            .appendQueryParameter("apikey",TOKEN_API)
-            .appendQueryParameter("t",movieName)
-            .build()
-        
-        return try {
-            URL(builtUri.toString())
-        }catch (e: MalformedURLException){
-            URL("")
-        }
-    }
+    val lista : MutableList<Coin> = arrayListOf()
     
-    @Throws(IOException::class)
-    fun getResponseFromHttpUrl(url:URL):String{
-        val urlConnection = url.openConnection() as HttpURLConnection
-        try {
-            
-            val `in` = urlConnection.inputStream
-            
-            val scanner = Scanner(`in`)
-            
-            scanner.useDelimiter("\\A")
-            
-            val  hasInput = scanner.hasNext()
-            return if (hasInput){
-                scanner.next()
-            }else{
-                ""
+    val colecion = db.collection("coin")
+        .get()
+        .addOnCompleteListener (OnCompleteListener<QuerySnapshot> { task ->
+            if (task.isSuccessful) {
+                for (document in task.result) {
+                   val moneda = Coin(
+                       document.id,
+                       document.data.get("name").toString(),
+                       document.data.get("country").toString(),
+                       document.data.get("value").toString().toFloat(),
+                       document.data.get("value_us").toString().toFloat(),
+                       document.data.get("year").toString().toInt(),
+                       document.data.get("review").toString(),
+                       document.data.get("isAvailable") as Boolean,
+                       document.data.get("img").toString()
+                   )
+                    lista.add(moneda)
+                }
+                
+            } else {
+                Log.d("ERROR", "Error getting documents: ", task.exception)
             }
-            
-        }finally {
-            urlConnection.disconnect()
-        }
+        })
+    
+    fun start(): MutableList<Coin> {
+        colecion.isSuccessful
+        return lista
     }
+    
+    
+    
 }

@@ -11,16 +11,11 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import android.content.Intent
-import android.os.AsyncTask
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.google.gson.Gson
 import com.naldana.ejemplo10.Adapter.CoinAdapter
 import com.naldana.ejemplo10.Utilities.Coin
 import com.naldana.ejemplo10.network.NetworkUtils
-import org.json.JSONObject
-import java.io.IOException
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -29,8 +24,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     
     private lateinit var coinAdapter: CoinAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
-    
-    private var coinList: ArrayList<Coin> = ArrayList()
+    private var coinList =  NetworkUtils().start()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -170,33 +164,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         coinAdapter.changeList(coinList)
     }
     
-    private inner class FetchMovie: AsyncTask<String, Void, String>(){
-        override fun doInBackground(vararg params: String): String {
-            if (params.isNullOrEmpty()) return ""
-            val movieName = params[0]
-            
-            val movieUrl = NetworkUtils().buildtSearchUrl(movieName)
-            
-            return try {
-                NetworkUtils().getResponseFromHttpUrl(movieUrl)
-            }catch (e: IOException){
-                ""
-            }
-        }
-        
-        override fun onPostExecute(movieInfo: String) {
-            super.onPostExecute(movieInfo)
-            if (!movieInfo.isEmpty()) {
-                val movieJson = JSONObject(movieInfo)
-                if (movieJson.getString("Response") == "True") {
-                    val coin = Gson().fromJson<Coin>(movieInfo, Coin::class.java)
-                    addCoinToList(coin)
-                } else {
-                    Snackbar.make(main_ll, "No existe la pelicula en la base", Snackbar.LENGTH_SHORT).show()
-                }
-            }
-        }
-        
-    }
+    
     
 }
