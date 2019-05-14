@@ -16,7 +16,7 @@ class NetworkUtils {
         .get()
         .addOnCompleteListener (OnCompleteListener<QuerySnapshot> { task ->
             if (task.isSuccessful) {
-                for (document in task.result) {
+                for (document in task.result!!) {
                    val moneda = Coin(
                        document.id,
                        document.data.get("name").toString(),
